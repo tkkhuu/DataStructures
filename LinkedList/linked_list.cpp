@@ -10,60 +10,138 @@
 using namespace LinkedList;
 
 template<class T>
-SingleLinkedList<T>::SingleLinkedList(T _data)
-: data(_data), next_node(nullptr)
+SingleLinkedListNode<T>::SingleLinkedListNode(T _data)
+: value(_data), next_node(nullptr)
 {
 }
-
 
 template<class T>
-SingleLinkedList<T>::SingleLinkedList(T _data, SingleLinkedList<T>* _next_node)
-: data(_data), next_node(_next_node)
+SingleLinkedList<T>::SingleLinkedList()
+: head(nullptr), tail(nullptr), list_size(0)
 {
 }
 
+template <class T>
+void SingleLinkedList<T>::AddNodeToHead(T _data)
+{
+    if (!head)
+    {
+        head = new SingleLinkedListNode<T>(_data);
+        tail = head;
+    }
+    else
+    {
+        SingleLinkedListNode<T>* temp = new SingleLinkedListNode<T>(_data);
+        temp->next_node = head;
+        head = temp;
+    }
+    list_size++;
+}
+
+template <class T>
+void SingleLinkedList<T>::AddNodeToTail(T _data)
+{
+    if (!tail)
+    {
+        AddNodeToHead(_data);
+    }
+    else
+    {
+        SingleLinkedListNode<T>* temp = new SingleLinkedListNode<T>(_data);
+        tail->next_node = temp;
+        tail = temp;
+        list_size++;
+    }
+}
+
+template <class T>
+T SingleLinkedList<T>::GetHead() {return head->value;}
+
+template <class T>
+T SingleLinkedList<T>::GetTail() {return tail->value;}
+
+template <class T>
+unsigned long SingleLinkedList<T>::Size() {return list_size;}
+
+template <class T>
+void SingleLinkedList<T>::PrintSingleLinkedList()
+{
+    SingleLinkedListNode<T>* iter = head;
+    cout << "[";
+    while(iter)
+    {
+        cout << iter->value;
+        if(iter->next_node) cout << ", ";
+        iter = iter->next_node;
+    }
+    
+    cout << "]" << endl;
+}
  
 template<class T>
-SingleLinkedList<T>* SingleLinkedList<T>::Find (T _data)
+bool SingleLinkedList<T>::Contains (T _data)
 {
-    SingleLinkedList<T>* iterator = this;
-    while (iterator != nullptr)
+    SingleLinkedListNode<T>* iterator = head;
+    while (iterator)
     {
-        if (iterator->data == _data)
+        if (iterator->value == _data)
         {
-            return iterator;
+            return true;
         }
         iterator = iterator->next_node;
     }
     
-    return nullptr;
-}
-
-template<class T>
-bool SingleLinkedList<T>::HasCycle()
-{
-    SingleLinkedList* iterator1 = this;
-    SingleLinkedList* iterator2 = this;
-    
-    while(iterator1)
-    {
-        if (iterator2->next) iterator2 = iterator2->next->next;
-        
-        iterator1 = iterator1->next;
-        
-        if (!iterator2 || !iterator2->next) return false;
-        
-        if (iterator1 == iterator2) return true;
-    }
     return false;
 }
 
-template <class T>
-SingleLinkedList<T>* SingleLinkedList<T>::Reverse()
+template<class T>
+void SingleLinkedList<T>::DeleteNode(T _data)
 {
-    SingleLinkedList* current = this;
-    SingleLinkedList* temp_next;
-    SingleLinkedList* previous_node = nullptr;
+    if(!head) return;
+    if(head->value == _data)
+    {
+        if (list_size == 1)
+        {
+            head = nullptr;
+            tail = nullptr;
+        }
+        else
+        {
+            head = head->next_node;
+        }
+    }
+    
+    else
+    {
+        SingleLinkedListNode<T>* iter = head;
+        while(iter)
+        {
+            if(iter->next_node && iter->next_node->value == _data)
+            {
+                if(iter->next_node == tail)
+                {
+                    iter->next_node = nullptr;
+                    tail = iter;
+                }
+                else
+                {
+                    iter->next_node = iter->next_node->next_node;
+                }
+                break;
+            }
+            iter = iter->next_node;
+        }
+    }
+    list_size--;
+}
+
+template <class T>
+void SingleLinkedList<T>::Reverse()
+{
+    tail = head;
+    SingleLinkedListNode<T>* current = head;
+    SingleLinkedListNode<T>* temp_next;
+    SingleLinkedListNode<T>* previous_node = nullptr;
     
     while(current)
     {
@@ -73,48 +151,41 @@ SingleLinkedList<T>* SingleLinkedList<T>::Reverse()
         previous_node = current;
         current = temp_next;
     }
-    return previous_node;
+    
+    head = previous_node;
 }
 
-template <class T>
-void SingleLinkedList<T>::DeleteNode(T _data)
-{
-    SingleLinkedList** iterator = &this;
-    while((*iterator))
-    {
-        if((*iterator->data) == data)
-        {
-            (*iterator) = (*iterator->next);
-            break;
-        }
-    }
-}
 
 template <class T>
 void SingleLinkedList<T>::DeleteAllNodes(T _data)
 {
-    SingleLinkedList** iterator = &this;
-    while((*iterator))
+    
+    SingleLinkedListNode<T>* iter = head;
+    while(iter)
     {
-        if((*iterator->data) == data)
+        if(iter->next_node && iter->next_node->value == _data)
         {
-            (*iterator) = (*iterator->next);
-            break;
+            list_size--;
+            if (iter->next_node == tail)
+            {
+                iter->next_node = nullptr;
+                tail = iter;
+                break;
+            }
+            else
+            {
+                iter->next_node = iter->next_node->next_node;
+            }
         }
-        else
-        {
-            iterator = &((*iterator)->next);
-        }
+        iter = iter->next_node;
+    }
+    
+    if (head->value == _data)
+    {
+        head = head->next_node;
+        list_size--;
     }
 }
 
-template <class T>
-T SingleLinkedList<T>::GetValue()
-{
-    return data;
-}
 
-template <class T>
-SingleLinkedList<T>* SingleLinkedList<T>::GetNextNode() {
-    return next_node;
-}
+
