@@ -14,12 +14,11 @@
 
 #include "linked_list.hpp"
 
-void TestSingleLinkedListConstructor();
+void TestSingleLinkedListAdd();
+void TestSingleLinkedListDelete();
+void TestSingleLinkedListDeleteAll();
 void TestSingleLinkedListFind();
-void TestSingleLinkedListDeleteNode();
-void TestSingleLinkedListDeleteAllNodes();
 void TestSingleLinkedListReverse();
-void TestSingleLinkedListHasCycle();
 
 void TestSingleLinkedList();
 #endif /* test_linked_list_hpp */
