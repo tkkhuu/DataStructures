@@ -38,6 +38,7 @@ namespace LinkedList {
         
         public:
         SingleLinkedList();
+        ~SingleLinkedList();
         
         void AddNodeToHead(T _data);
         void AddNodeToTail(T _data);

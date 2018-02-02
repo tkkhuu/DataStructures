@@ -13,11 +13,12 @@
 #include <iostream>
 
 #include "linked_list.hpp"
+#include "linked_list.cpp"
 
 void TestSingleLinkedListAdd();
 void TestSingleLinkedListDelete();
 void TestSingleLinkedListDeleteAll();
-void TestSingleLinkedListFind();
+void TestSingleLinkedListContains();
 void TestSingleLinkedListReverse();
 
 void TestSingleLinkedList();

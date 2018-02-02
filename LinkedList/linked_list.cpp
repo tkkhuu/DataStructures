@@ -21,6 +21,18 @@ SingleLinkedList<T>::SingleLinkedList()
 {
 }
 
+template<class T>
+SingleLinkedList<T>::~SingleLinkedList<T>()
+{
+    SingleLinkedListNode<T>* iter = head;
+    while(iter)
+    {
+        SingleLinkedListNode<T>* next = iter->next_node;
+        delete iter;
+        iter = next;
+    }
+}
+
 template <class T>
 void SingleLinkedList<T>::AddNodeToHead(T _data)
 {

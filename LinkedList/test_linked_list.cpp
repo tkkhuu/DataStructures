@@ -7,8 +7,17 @@
 //
 
 #include "test_linked_list.hpp"
-#include "linked_list.cpp"
+
 using namespace LinkedList;
+
+void TestSingleLinkedList()
+{
+    TestSingleLinkedListAdd();
+    TestSingleLinkedListDelete();
+    TestSingleLinkedListContains();
+    TestSingleLinkedListReverse();
+    TestSingleLinkedListDeleteAll();
+}
 
 void TestSingleLinkedListAdd()
 {
@@ -159,11 +168,4 @@ void TestSingleLinkedListReverse()
     }
 }
 
-void TestSingleLinkedList()
-{
-    TestSingleLinkedListAdd();
-    TestSingleLinkedListDelete();
-    TestSingleLinkedListContains();
-    TestSingleLinkedListReverse();
-    TestSingleLinkedListDeleteAll();
-}
+
