@@ -8,6 +8,19 @@
 
 #include "test_matrix.hpp"
 
+void TestMatrix2D()
+{
+    
+    TestMatrix2DCountRows();
+    TestMatrix2DCountColumns();
+    TestMatrix2DIndexOperator();
+    TestMatrix2DEqualOperator();
+    TestMatrix2DPlusEqualOperator();
+    TestMatrix2DMinusEqualOperator();
+    TestMatrix2DMultiplyEqualScalarOperator();
+    TestMatrix2DMultiplyEqualMatrixOperator();
+}
+
 void TestMatrix2DCountRows()
 {
     try
@@ -281,14 +294,4 @@ void TestMatrix2DMultiplyEqualScalarOperator()
     }
 }
 
-void TestMatrix2D()
-{
-    TestMatrix2DCountRows();
-    TestMatrix2DCountColumns();
-    TestMatrix2DIndexOperator();
-    TestMatrix2DEqualOperator();
-    TestMatrix2DPlusEqualOperator();
-    TestMatrix2DMinusEqualOperator();
-    TestMatrix2DMultiplyEqualScalarOperator();
-    TestMatrix2DMultiplyEqualMatrixOperator();
-}
+
