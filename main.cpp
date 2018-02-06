@@ -9,7 +9,7 @@
 #include <iostream>
 #include "Matrix/test_matrix.hpp"
 #include "LinkedList/test_linked_list.hpp"
-#include "Tree/Heap/test_heap.hpp"
+#include "Tree/CompleteBinaryTree/Heap/test_heap.hpp"
 
 int main(int argc, const char * argv[]) {
     
