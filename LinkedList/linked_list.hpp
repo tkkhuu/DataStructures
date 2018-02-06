@@ -25,7 +25,7 @@ namespace LinkedList {
         SingleLinkedListNode<T>* next_node;
 
         SingleLinkedListNode<T>(T _data);
-        
+        ~SingleLinkedListNode<T>();
     };
     
     template <class T>
@@ -38,18 +38,20 @@ namespace LinkedList {
         
         public:
         SingleLinkedList();
-        ~SingleLinkedList();
+        ~SingleLinkedList<T>();
         
-        void AddNodeToHead(T _data);
-        void AddNodeToTail(T _data);
+        void PushToHead(T _data);
+        void PushToTail(T _data);
         
         void DeleteNode(T _data);
         void DeleteAllNodes(T _data);
         bool Contains(T _data);
         void Reverse();
         
-        T GetHead();
-        T GetTail();
+        T PopHead();
+        T PopTail();
+        T PeekHead();
+        T PeekTail();
         unsigned long Size();
         
         void PrintSingleLinkedList();

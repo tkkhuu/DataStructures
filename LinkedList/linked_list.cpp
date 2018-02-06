@@ -11,30 +11,30 @@ using namespace LinkedList;
 
 template<class T>
 SingleLinkedListNode<T>::SingleLinkedListNode(T _data)
-: value(_data), next_node(nullptr)
+: value(_data), next_node()
 {
 }
 
 template<class T>
-SingleLinkedList<T>::SingleLinkedList()
-: head(nullptr), tail(nullptr), list_size(0)
+SingleLinkedListNode<T>::~SingleLinkedListNode()
 {
+    delete next_node;
 }
 
 template<class T>
 SingleLinkedList<T>::~SingleLinkedList<T>()
 {
-    SingleLinkedListNode<T>* iter = head;
-    while(iter)
-    {
-        SingleLinkedListNode<T>* next = iter->next_node;
-        delete iter;
-        iter = next;
-    }
+    delete head;
+}
+
+template<class T>
+SingleLinkedList<T>::SingleLinkedList()
+: head(), tail(), list_size(0)
+{
 }
 
 template <class T>
-void SingleLinkedList<T>::AddNodeToHead(T _data)
+void SingleLinkedList<T>::PushToHead(T _data)
 {
     if (!head)
     {
@@ -51,11 +51,11 @@ void SingleLinkedList<T>::AddNodeToHead(T _data)
 }
 
 template <class T>
-void SingleLinkedList<T>::AddNodeToTail(T _data)
+void SingleLinkedList<T>::PushToTail(T _data)
 {
     if (!tail)
     {
-        AddNodeToHead(_data);
+        PushToHead(_data);
     }
     else
     {
@@ -67,10 +67,46 @@ void SingleLinkedList<T>::AddNodeToTail(T _data)
 }
 
 template <class T>
-T SingleLinkedList<T>::GetHead() {return head->value;}
+T SingleLinkedList<T>::PeekHead() {return head->value;}
 
 template <class T>
-T SingleLinkedList<T>::GetTail() {return tail->value;}
+T SingleLinkedList<T>::PeekTail() {return tail->value;}
+
+template <class T>
+T SingleLinkedList<T>::PopHead()
+{
+    if (head == tail)
+    {
+        cout << "Stack is empty" << endl;
+        exit(0);
+    }
+    T result = head->value;
+    head = head->next_node;
+    list_size--;
+    return result;
+}
+
+template <class T>
+T SingleLinkedList<T>::PopTail()
+{
+    if (head == tail)
+    {
+        cout << "Stack is empty" << endl;
+        exit(0);
+    }
+    
+    SingleLinkedListNode<T>* iter = head;
+    while(iter->next_node && iter->next_node != tail)
+    {
+        iter = iter->next_node;
+    }
+    
+    T result = tail->value;
+    
+    tail = iter;
+    list_size--;
+    return result;
+}
 
 template <class T>
 unsigned long SingleLinkedList<T>::Size() {return list_size;}
@@ -166,7 +202,6 @@ void SingleLinkedList<T>::Reverse()
     
     head = previous_node;
 }
-
 
 template <class T>
 void SingleLinkedList<T>::DeleteAllNodes(T _data)

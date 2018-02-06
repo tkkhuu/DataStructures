@@ -20,6 +20,8 @@ void TestSingleLinkedListDelete();
 void TestSingleLinkedListDeleteAll();
 void TestSingleLinkedListContains();
 void TestSingleLinkedListReverse();
+void TestSingleLinkedListPopHead();
+void TestSingleLinkedListPopTail();
 
 void TestSingleLinkedList();
 #endif /* test_linked_list_hpp */
