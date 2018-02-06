@@ -14,11 +14,14 @@
 
 #include "../CompleteBinaryTree.hpp"
 
+using namespace CompleteBinaryTree;
+
 namespace Heap {
     
     template<class T>
-    class AbsHeap : class CompleteBinaryTree
+    class AbsHeap : public CompleteBinaryTree<T>
     {
+        protected:
         virtual void Swap(unsigned long index1, unsigned long index2);
         
         public:
