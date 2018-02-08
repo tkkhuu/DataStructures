@@ -29,6 +29,7 @@ namespace Matrix
         Matrix2D(vector<vector<double> >);
         
         Matrix2D Transpose();
+        Matrix2D NonMaximalSuppression(int window_size);
         unsigned long CountRows();
         unsigned long CountColumns();
         
@@ -42,6 +43,7 @@ namespace Matrix
         Matrix2D& operator-=(const Matrix2D&);
         Matrix2D& operator*=(const Matrix2D&);
         Matrix2D& operator*=(const double&);
+        bool operator== (const Matrix2D&);
         
         
         static Matrix2D Zeros(unsigned long _rows, unsigned long _cols)

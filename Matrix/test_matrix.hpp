@@ -24,6 +24,7 @@ void TestMatrix2DPlusEqualOperator();
 void TestMatrix2DMinusEqualOperator();
 void TestMatrix2DMultiplyEqualScalarOperator();
 void TestMatrix2DMultiplyEqualMatrixOperator();
+void TestMatrix2DNonMaxSuppression();
 void TestMatrix2D();
 
 #endif /* test_matrix_hpp */

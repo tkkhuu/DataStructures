@@ -19,6 +19,7 @@ void TestMatrix2D()
     TestMatrix2DMinusEqualOperator();
     TestMatrix2DMultiplyEqualScalarOperator();
     TestMatrix2DMultiplyEqualMatrixOperator();
+    TestMatrix2DNonMaxSuppression();
 }
 
 void TestMatrix2DCountRows()
@@ -291,6 +292,43 @@ void TestMatrix2DMultiplyEqualScalarOperator()
     catch(...)
     {
         cout << "Matrix2D Test '*= scalar' Operator: Failed" << endl;
+    }
+}
+
+void TestMatrix2DNonMaxSuppression()
+{
+    try
+    {
+        Matrix2D m_matrix({
+            {6, 2,  3,  4},
+            {5, 6,  7,  8},
+            {9, 10, 11, 12},
+            {13,14, 15, 16}
+        });
+        
+        Matrix2D non_max_result_wind_3 ({
+            {0,     0,     0,     0},
+            {0,     0,     0,     0},
+            {0,     0,     11,     12},
+            {0,     0,     15,     16}
+        });
+        Matrix2D non_max_result_wind_2 ({
+            {6,     0,     0,     0},
+            {0,     6,     7,     8},
+            {0,     10,     11,     12},
+            {0,     14,     15,     16}
+        });
+        Matrix2D test_result_wind3 = m_matrix.NonMaximalSuppression(3);
+        Matrix2D test_result_wind2 = m_matrix.NonMaximalSuppression(2);
+        
+        assert(test_result_wind2 == non_max_result_wind_2);
+        assert(test_result_wind3 == non_max_result_wind_3);
+        
+        cout << "Matrix2D Test Non Max Suppression Operator: Passed" << endl;
+    }
+    catch(...)
+    {
+        cout << "Matrix2D Test Non Max Suppression Operator: Failed" << endl;
     }
 }
 

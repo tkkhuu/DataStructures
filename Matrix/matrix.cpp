@@ -158,3 +158,63 @@ Matrix2D Matrix2D::operator*(const double& scalar)
     result *= scalar;
     return result;
 }
+
+bool Matrix2D::operator== (const Matrix2D& rhs)
+{
+    if (rows != rhs.rows) return false;
+    if (cols != rhs.cols) return false;
+    return (data == rhs.data);
+}
+
+Matrix2D Matrix2D::NonMaximalSuppression(int window_size)
+{
+    Matrix2D result (rows, cols);
+    
+    int row_window_idx = 0;
+    int col_window_idx = 0;
+    
+    while (row_window_idx < rows)
+    {
+        int max_val = data[row_window_idx][col_window_idx];
+        
+        vector<pair<int, int>> list_of_idx_max_val;
+        
+        for (int i = row_window_idx; i < row_window_idx + window_size; i++)
+        {
+            if (i >= rows) break;
+            for (int j = col_window_idx; j < col_window_idx + window_size; j++)
+            {
+                if (j >= cols) break;
+                if (data[i][j] == max_val)
+                {
+                    pair<int, int> temp (i, j);
+                    list_of_idx_max_val.push_back(temp);
+                }
+                else if (data[i][j] > max_val)
+                {
+                    max_val = data[i][j];
+                    list_of_idx_max_val.clear();
+                    pair<int, int> temp (i, j);
+                    list_of_idx_max_val.push_back(temp);
+                }
+            }
+        }
+        
+        for (auto& e : list_of_idx_max_val)
+        {
+            int max_val_row_index = e.first;
+            int max_val_col_index = e.second;
+            result[max_val_row_index][max_val_col_index] = max_val;
+        }
+        
+        col_window_idx += 1;
+        if(col_window_idx >= cols)
+        {
+            row_window_idx += 1;
+            col_window_idx = 0;
+        }
+    }
+    
+    
+    return result;
+}
