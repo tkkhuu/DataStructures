@@ -17,13 +17,13 @@ template<class T>
 unsigned long CompleteBinaryTree<T>::Size() {return heap_size;}
 
 template<class T>
-unsigned int CompleteBinaryTree<T>::GetLeftChildIndex(unsigned long index) {return 2 * index + 1;}
+unsigned long CompleteBinaryTree<T>::GetLeftChildIndex(unsigned long index) {return 2 * index + 1;}
 
 template<class T>
-unsigned int CompleteBinaryTree<T>::GetRightChildIndex(unsigned long index) {return 2 * index + 2;}
+unsigned long CompleteBinaryTree<T>::GetRightChildIndex(unsigned long index) {return 2 * index + 2;}
 
 template<class T>
-unsigned int CompleteBinaryTree<T>::GetParentIndex(unsigned long index) {return (index - 1) / 2;}
+unsigned long CompleteBinaryTree<T>::GetParentIndex(unsigned long index) {return (index - 1) / 2;}
 
 template<class T>
 bool CompleteBinaryTree<T>::HasLeftChild(unsigned long index) {return GetLeftChildIndex(index) < heap_size;}

@@ -20,9 +20,9 @@ namespace CompleteBinaryTree {
             std::vector<T> items;
             unsigned long heap_size;
         
-            virtual unsigned int GetLeftChildIndex(unsigned long index);
-            virtual unsigned int GetRightChildIndex(unsigned long index);
-            virtual unsigned int GetParentIndex(unsigned long index);
+            virtual unsigned long GetLeftChildIndex(unsigned long index);
+            virtual unsigned long GetRightChildIndex(unsigned long index);
+            virtual unsigned long GetParentIndex(unsigned long index);
             virtual bool HasLeftChild(unsigned long index);
             virtual bool HasRightChild(unsigned long index);
             virtual bool HasParent(unsigned long index);
