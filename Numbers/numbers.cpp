@@ -29,64 +29,62 @@ UnsignedInteger::~UnsignedInteger(){};
 string UnsignedInteger::ToWord() const
 {
     if (_value == 0) return "zero";
+    if (_value > _max_unsigned_int_word) return "Number too big to be represented in word";
+    uint64_t num = _value;
     
-    string zeroth_in_string[] = {"", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    string tenth_in_string[] = {"ten", "eleven", "twelve","thirteen", "fourteenth", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"};
-    string unit_string[] = {"hundred", "thousand"};
+    unsigned char power_id = 0;
     
     string result = "";
     
-    uint64_t temp_value = _value;
-    uint64_t zeroth_unit = (temp_value / 1) % 10;
-    uint64_t tenth_unit = (temp_value / 10) % 10;
-
-    if (tenth_unit != 0)
+    while(num > 0)
     {
-        switch (tenth_unit)
+        uint64_t next_three_digit = (num % 1000);
+        if (next_three_digit)
         {
-            case 1:
-                result = tenth_in_string[zeroth_unit];
-                break;
-            case 2:
-                result = "twenty" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
-                break;
-            case 3:
-                result = "thirty" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
-                break;
-            case 4:
-                result = "fourty" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
-                break;
-            case 5:
-                result = "fifty" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
-                break;
-            case 6:
-                result = "sixty" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
-                break;
-            case 7:
-                result = "seventy" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
-                break;
-            case 8:
-                result = "eighty" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
-                break;
-            case 9:
-                result = "ninety" + ((zeroth_unit == 0) ? "" : "-" + zeroth_in_string[zeroth_unit]);
+            result = _ToWord3Digits(next_three_digit) + _space + _power_num_words[power_id] + _space + result;
         }
+        power_id++;
+        num /= 1000;
         
     }
-    else
-    {
-        result = zeroth_in_string[zeroth_unit] + result;
-    }
     
-    uint64_t unit_counter = 100;
-    int unit_int_string = 0;
-    while (temp_value / unit_counter > 0)
+    return result;
+}
+
+// ======== Private Functions ========
+string UnsignedInteger::_ToWord3Digits(uint64_t& num) const
+{
+    if (num > 999) return ""; // TODO: Create custom exception
+    
+    string result = "";
+    
+    uint64_t temp_value = num;
+    uint64_t single_unit = (temp_value / 1) % 10;
+    uint64_t double_unit = (temp_value / 10) % 10;
+    uint64_t hundred_unit = (temp_value / 100) % 10;
+    
+    if (hundred_unit)
     {
-        if (unit_counter == 100 && (zeroth_unit || tenth_unit)) result = "and " + result;
-        int unit_value = (temp_value / unit_counter) % 10;
-        if(unit_value > 0) result = zeroth_in_string[unit_value] + " " + unit_string[unit_int_string] + " " + result;
-        unit_counter *= 10;
-        unit_int_string++;
+        result += _single_num_words[hundred_unit] + " hundred";
+    }
+    if (double_unit)
+    {
+        if (hundred_unit) result += _space;
+        if(double_unit == 1)
+        {
+            result += _teen_num_words[single_unit];
+            return result;
+        }
+        else
+        {
+            result += _double_num_words[double_unit];
+        }
+    }
+    if (single_unit)
+    {
+        if(double_unit) result +=  _hyphen;
+        else if (hundred_unit) result += " and ";
+        result += _single_num_words[single_unit];
     }
     
     return result;
