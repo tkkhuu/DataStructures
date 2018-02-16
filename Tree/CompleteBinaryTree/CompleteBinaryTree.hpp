@@ -14,7 +14,7 @@
 namespace CompleteBinaryTree {
     
     template<class T>
-    class CompleteBinaryTree
+    class AbsCompleteBinaryTree
     {
         protected:
             std::vector<T> items;
@@ -28,7 +28,7 @@ namespace CompleteBinaryTree {
             virtual bool HasParent(unsigned long index);
         
         public:
-            CompleteBinaryTree<T>();
+            AbsCompleteBinaryTree<T>();
             virtual unsigned long Size();
     };
 };

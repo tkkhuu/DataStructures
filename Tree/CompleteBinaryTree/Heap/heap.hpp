@@ -19,7 +19,7 @@ using namespace CompleteBinaryTree;
 namespace Heap {
     
     template<class T>
-    class AbsHeap : public CompleteBinaryTree<T>
+    class AbsHeap : public AbsCompleteBinaryTree<T>
     {
         protected:
         virtual void Swap(unsigned long index1, unsigned long index2);

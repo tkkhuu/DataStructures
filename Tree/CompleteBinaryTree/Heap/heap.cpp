@@ -12,42 +12,42 @@
 using namespace Heap;
 
 template<class T>
-AbsHeap<T>::AbsHeap() : CompleteBinaryTree<T>()
+AbsHeap<T>::AbsHeap() : AbsCompleteBinaryTree<T>()
 {
 }
 
 template<class T>
 void AbsHeap<T>::Swap(unsigned long index1, unsigned long index2)
 {
-    T temp = CompleteBinaryTree<T>::items[index1];
-    CompleteBinaryTree<T>::items[index1] = CompleteBinaryTree<T>::items[index2];
-    CompleteBinaryTree<T>::items[index2] = temp;
+    T temp = AbsCompleteBinaryTree<T>::items[index1];
+    AbsCompleteBinaryTree<T>::items[index1] = AbsCompleteBinaryTree<T>::items[index2];
+    AbsCompleteBinaryTree<T>::items[index2] = temp;
 }
 
 template<class T>
 T AbsHeap<T>::Peek()
 {
-    if(CompleteBinaryTree<T>::heap_size <= 0)
+    if(AbsCompleteBinaryTree<T>::heap_size <= 0)
     {
         std::cout << "Can't Peek an empty heap" << std::endl;
         exit(0);
     }
-    return CompleteBinaryTree<T>::items[0];
+    return AbsCompleteBinaryTree<T>::items[0];
 }
 
 template<class T>
 T AbsHeap<T>::Pop()
 {
-    if(CompleteBinaryTree<T>::heap_size <= 0)
+    if(AbsCompleteBinaryTree<T>::heap_size <= 0)
     {
         std::cout << "Can't Pop an empty heap" << std::endl;
         exit(0);
     }
     
-    T result = CompleteBinaryTree<T>::items[0];
-    CompleteBinaryTree<T>::items[0] = CompleteBinaryTree<T>::items[CompleteBinaryTree<T>::heap_size - 1];
-    CompleteBinaryTree<T>::items.erase(CompleteBinaryTree<T>::items.begin() + (CompleteBinaryTree<T>::heap_size - 1));
-    CompleteBinaryTree<T>::heap_size--;
+    T result = AbsCompleteBinaryTree<T>::items[0];
+    AbsCompleteBinaryTree<T>::items[0] = AbsCompleteBinaryTree<T>::items[AbsCompleteBinaryTree<T>::heap_size - 1];
+    AbsCompleteBinaryTree<T>::items.erase(AbsCompleteBinaryTree<T>::items.begin() + (AbsCompleteBinaryTree<T>::heap_size - 1));
+    AbsCompleteBinaryTree<T>::heap_size--;
     HeapifyDown();
     return result;
 }
@@ -55,8 +55,8 @@ T AbsHeap<T>::Pop()
 template<class T>
 void AbsHeap<T>::Push(T new_value)
 {
-    CompleteBinaryTree<T>::items.push_back(new_value);
-    CompleteBinaryTree<T>::heap_size++;
+    AbsCompleteBinaryTree<T>::items.push_back(new_value);
+    AbsCompleteBinaryTree<T>::heap_size++;
     HeapifyUp();
 }
 
