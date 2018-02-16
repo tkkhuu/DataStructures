@@ -13,23 +13,31 @@
 
 namespace CompleteBinaryTree {
     
-    template<class T>
+    template<typename T>
     class AbsCompleteBinaryTree
     {
-        protected:
-            std::vector<T> items;
-            unsigned long heap_size;
+        std::vector<T> _items;
+        unsigned long _heap_size;
         
-            virtual unsigned long GetLeftChildIndex(unsigned long index);
-            virtual unsigned long GetRightChildIndex(unsigned long index);
-            virtual unsigned long GetParentIndex(unsigned long index);
-            virtual bool HasLeftChild(unsigned long index);
-            virtual bool HasRightChild(unsigned long index);
-            virtual bool HasParent(unsigned long index);
+    protected:
+        AbsCompleteBinaryTree<T>();
+        virtual ~AbsCompleteBinaryTree<T>();
         
-        public:
-            AbsCompleteBinaryTree<T>();
-            virtual unsigned long Size();
+        const T GetItem(unsigned int) const;
+        const T GetLastItem() const;
+        void SetItem(unsigned int, const T);
+        void EraseLastItem();
+        void AddItem(const T);
+        virtual void Swap(unsigned int, unsigned int);
+        virtual unsigned int GetLeftChildIndex(unsigned int&) const;
+        virtual unsigned int GetRightChildIndex(unsigned int&) const;
+        virtual unsigned int GetParentIndex(unsigned int&) const;
+        virtual bool HasLeftChild(unsigned int&) const;
+        virtual bool HasRightChild(unsigned int&) const;
+        virtual bool HasParent(unsigned int&) const;
+        
+    public:
+        virtual unsigned long Size() const;
     };
 };
 

@@ -18,37 +18,37 @@ using namespace CompleteBinaryTree;
 
 namespace Heap {
     
-    template<class T>
+    template<typename T>
     class AbsHeap : public AbsCompleteBinaryTree<T>
     {
-        protected:
-        virtual void Swap(unsigned long index1, unsigned long index2);
-        
-        public:
+    protected:
         AbsHeap();
+        virtual ~AbsHeap();
+        
+    public:
         virtual void HeapifyUp() = 0;
         virtual void HeapifyDown() = 0;
-        
+        virtual void Push(T new_value);
         virtual T Peek();
         virtual T Pop();
-        virtual void Push(T new_value);
-        
     };
     
-    template<class T>
+    template<typename T>
     class MinHeap : public AbsHeap<T>
     {
         public:
         MinHeap();
+        ~MinHeap();
         void HeapifyUp();
         void HeapifyDown();
     };
     
-    template<class T>
+    template<typename T>
     class MaxHeap : public AbsHeap<T>
     {
         public:
         MaxHeap();
+        ~MaxHeap();
         void HeapifyUp();
         void HeapifyDown();
     };

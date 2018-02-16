@@ -11,43 +11,32 @@
 
 using namespace Heap;
 
-template<class T>
-AbsHeap<T>::AbsHeap() : AbsCompleteBinaryTree<T>()
-{
-}
-
-template<class T>
-void AbsHeap<T>::Swap(unsigned long index1, unsigned long index2)
-{
-    T temp = AbsCompleteBinaryTree<T>::items[index1];
-    AbsCompleteBinaryTree<T>::items[index1] = AbsCompleteBinaryTree<T>::items[index2];
-    AbsCompleteBinaryTree<T>::items[index2] = temp;
-}
-
-template<class T>
+// **************** AbsHeap ****************
+// ======== Public Methods ========
+template<typename T>
 T AbsHeap<T>::Peek()
 {
-    if(AbsCompleteBinaryTree<T>::heap_size <= 0)
+    if(AbsHeap<T>::Size() <= 0)
     {
         std::cout << "Can't Peek an empty heap" << std::endl;
         exit(0);
     }
-    return AbsCompleteBinaryTree<T>::items[0];
+    return AbsHeap<T>::GetItem(0);
 }
 
 template<class T>
 T AbsHeap<T>::Pop()
 {
-    if(AbsCompleteBinaryTree<T>::heap_size <= 0)
+    if(AbsHeap<T>::Size() <= 0)
     {
         std::cout << "Can't Pop an empty heap" << std::endl;
         exit(0);
     }
     
-    T result = AbsCompleteBinaryTree<T>::items[0];
-    AbsCompleteBinaryTree<T>::items[0] = AbsCompleteBinaryTree<T>::items[AbsCompleteBinaryTree<T>::heap_size - 1];
-    AbsCompleteBinaryTree<T>::items.erase(AbsCompleteBinaryTree<T>::items.begin() + (AbsCompleteBinaryTree<T>::heap_size - 1));
-    AbsCompleteBinaryTree<T>::heap_size--;
+    T result = AbsHeap<T>::GetItem(0);
+    T last_item_in_heap = AbsHeap<T>::GetLastItem();
+    AbsHeap<T>::SetItem(0, last_item_in_heap);
+    AbsHeap<T>::EraseLastItem();
     HeapifyDown();
     return result;
 }
@@ -55,25 +44,34 @@ T AbsHeap<T>::Pop()
 template<class T>
 void AbsHeap<T>::Push(T new_value)
 {
-    AbsCompleteBinaryTree<T>::items.push_back(new_value);
-    AbsCompleteBinaryTree<T>::heap_size++;
+    AbsHeap<T>::AddItem(new_value);
     HeapifyUp();
 }
 
+// ======== Protected Methods ========
 template<class T>
-MinHeap<T>::MinHeap() : AbsHeap<T>()
-{
-}
+AbsHeap<T>::AbsHeap() : AbsCompleteBinaryTree<T>() {}
+
+template<class T>
+AbsHeap<T>::~AbsHeap() {}
+
+// **************** MinHeap ****************
+// ======== Public Methods ========
+template<class T>
+MinHeap<T>::MinHeap() : AbsHeap<T>(){}
+
+template<class T>
+MinHeap<T>::~MinHeap(){}
 
 template<class T>
 void MinHeap<T>::HeapifyUp()
 {
-    unsigned long current_item_index = AbsHeap<T>::heap_size - 1;
+    unsigned int current_item_index = AbsHeap<T>::Size() - 1;
     
     while(AbsHeap<T>::HasParent(current_item_index))
     {
-        unsigned long parent_index = AbsHeap<T>::GetParentIndex(current_item_index);
-        if (AbsHeap<T>::items[current_item_index] < AbsHeap<T>::items[parent_index])
+        unsigned int parent_index = AbsHeap<T>::GetParentIndex(current_item_index);
+        if (AbsHeap<T>::GetItem(current_item_index) < AbsHeap<T>::GetItem(parent_index))
         {
             AbsHeap<T>::Swap(current_item_index, parent_index);
         }
@@ -84,22 +82,22 @@ void MinHeap<T>::HeapifyUp()
 template<class T>
 void MinHeap<T>::HeapifyDown()
 {
-    unsigned long current_index = 0;
+    unsigned int current_index = 0;
     
     while (AbsHeap<T>::HasLeftChild(current_index))
     {
-        unsigned long small_child_index = AbsHeap<T>::GetLeftChildIndex(current_index);
+        unsigned int small_child_index = AbsHeap<T>::GetLeftChildIndex(current_index);
         if (AbsHeap<T>::HasRightChild(current_index))
         {
-            unsigned long right_child_index = AbsHeap<T>::GetRightChildIndex(current_index);
-            if (AbsHeap<T>::items[right_child_index] < AbsHeap<T>::items[small_child_index])
+            unsigned int right_child_index = AbsHeap<T>::GetRightChildIndex(current_index);
+            if (AbsHeap<T>::GetItem(right_child_index) < AbsHeap<T>::GetItem(small_child_index))
             {
                 small_child_index = right_child_index;
             }
             
         }
         
-        if (AbsHeap<T>::items[small_child_index] < AbsHeap<T>::items[current_index])
+        if (AbsHeap<T>::GetItem(small_child_index) < AbsHeap<T>::GetItem(current_index))
         {
             AbsHeap<T>::Swap(small_child_index, current_index);
         }
@@ -111,19 +109,23 @@ void MinHeap<T>::HeapifyDown()
     }
 }
 
+// **************** MaxHeap ****************
+// ======== Public Methods ========
+
 template<class T>
-MaxHeap<T>::MaxHeap() : AbsHeap<T>()
-{
-}
+MaxHeap<T>::MaxHeap() : AbsHeap<T>(){}
+
+template<class T>
+MaxHeap<T>::~MaxHeap(){}
 
 template<class T>
 void MaxHeap<T>::HeapifyUp()
 {
-    unsigned long current_item_index = AbsHeap<T>::heap_size - 1;
+    unsigned int current_item_index = AbsHeap<T>::Size() - 1;
     while(AbsHeap<T>::HasParent(current_item_index))
     {
-        unsigned long parent_index = AbsHeap<T>::GetParentIndex(current_item_index);
-        if (AbsHeap<T>::items[current_item_index] > AbsHeap<T>::items[parent_index])
+        unsigned int parent_index = AbsHeap<T>::GetParentIndex(current_item_index);
+        if (AbsHeap<T>::GetItem(current_item_index) > AbsHeap<T>::GetItem(parent_index))
         {
             AbsHeap<T>::Swap(current_item_index, parent_index);
         }
@@ -134,22 +136,22 @@ void MaxHeap<T>::HeapifyUp()
 template<class T>
 void MaxHeap<T>::HeapifyDown()
 {
-    unsigned long current_index = 0;
+    unsigned int current_index = 0;
     
     while (AbsHeap<T>::HasLeftChild(current_index))
     {
-        unsigned long large_child_index = AbsHeap<T>::GetLeftChildIndex(current_index);
+        unsigned int large_child_index = AbsHeap<T>::GetLeftChildIndex(current_index);
         if (AbsHeap<T>::HasRightChild(current_index))
         {
-            unsigned long right_child_index = AbsHeap<T>::GetRightChildIndex(current_index);
-            if (AbsHeap<T>::items[right_child_index] > AbsHeap<T>::items[large_child_index])
+            unsigned int right_child_index = AbsHeap<T>::GetRightChildIndex(current_index);
+            if (AbsHeap<T>::GetItem(right_child_index) > AbsHeap<T>::GetItem(large_child_index))
             {
                 large_child_index = right_child_index;
             }
             
         }
         
-        if (AbsHeap<T>::items[large_child_index] > AbsHeap<T>::items[current_index])
+        if (AbsHeap<T>::GetItem(large_child_index) > AbsHeap<T>::GetItem(current_index))
         {
             AbsHeap<T>::Swap(large_child_index, current_index);
         }
